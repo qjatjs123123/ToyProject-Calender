@@ -1,18 +1,19 @@
 import "./App.css";
-import DatePicker from "./components/DatePicker/DatePicker";
-import { DatePickerProvider } from "./providers/DatePickerProvider";
+import CalendarLayout from "./components/CalenderLayout";
+import Header from "./components/Header";
+import LeftSideMenu from "./components/LeftSideMenu";
+import RightSideMenu from "./components/RightSideMenu";
 
 function App() {
   return (
-    <div>
-      <DatePickerProvider>
-        <DatePicker>
-          <DatePicker.Title />
-          <DatePicker.ContentHeader />
-          <DatePicker.Content />
-        </DatePicker>
-      </DatePickerProvider>
-    </div>
+    <>
+      <Header />
+      <div className="flex h-[calc(100vh-64px)]">
+        <LeftSideMenu />
+        <CalendarLayout />
+        <RightSideMenu />
+      </div>
+    </>
   );
 }
 

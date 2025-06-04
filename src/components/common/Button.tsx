@@ -32,7 +32,7 @@ function Button(props: Props) {
       )}
       {...rest}
     >
-      <span className="button__content">{children}</span>
+      {children}
     </button>
   );
 }

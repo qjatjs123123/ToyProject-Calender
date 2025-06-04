@@ -67,7 +67,7 @@ const Content: FC = () => {
             key={idx}
             onClick={() => setDate(day.format("YYYY-MM-DD"))}
             type={type}
-            className={`text-center rounded-full w-10 h-10 flex items-center justify-center text-sm`}
+            className={`text-center rounded-full w-[24px] h-[24px] flex items-center justify-center text-sm`}
           >
             <Text
               size="xs"
@@ -85,7 +85,7 @@ const Content: FC = () => {
 
 const DatePickerRoot: FC<childrenProps> = ({ children }) => {
   return (
-    <div className="max-w-md mx-auto mt-4 p-4 bg-white rounded-xl shadow">
+    <div className="max-w-md mx-auto mt-4 p-4 rounded-xl">
       {children}
     </div>
   );
