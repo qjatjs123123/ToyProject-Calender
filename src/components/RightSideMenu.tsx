@@ -6,7 +6,7 @@ const RightSideMenu: React.FC = () => {
   return (
     <aside className="w-[56px] bg-transparent">
       {ICONDATA.map((iconUrl) => (
-        <div className="w-[56px] h-[56px] relative block px-3 py-2">
+        <div className="w-[56px] h-[56px] relative block px-3 py-2" key={iconUrl}>
           <Button
             type="none"
             className="h-[40px] w-[40px] absolute left-[8px] top-[8px]"

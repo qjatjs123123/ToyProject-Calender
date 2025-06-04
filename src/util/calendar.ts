@@ -10,7 +10,7 @@ export const getDays = (selectedDate: string) => {
   let current = calendarStart;
 
   while (current.isBefore(calendarEnd) || current.isSame(calendarEnd, "day")) {
-    days.push(current);
+    days.push(current.format("YYYY-MM-DD"));
     current = current.add(1, "day");
   }
 

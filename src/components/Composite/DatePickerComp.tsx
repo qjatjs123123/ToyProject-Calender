@@ -47,9 +47,9 @@ const Content: FC = () => {
   return (
     <div className="grid grid-cols-7 gap-2 place-items-center">
       {days.map((day, idx) => {
-        const isToday = day.format("YYYY-MM-DD") === now;
-        const isSelected = day.format("YYYY-MM-DD") === selectedDate;
-        const isCurrentMonth = day.month() === dayjs(selectedDate).month();
+        const isToday = day === now;
+        const isSelected = day === selectedDate;
+        const isCurrentMonth = dayjs(day).month() === dayjs(selectedDate).month();
 
         const type = isToday
           ? "primary"
@@ -65,7 +65,7 @@ const Content: FC = () => {
         return (
           <Button
             key={idx}
-            onClick={() => setDate(day.format("YYYY-MM-DD"))}
+            onClick={() => setDate(day)}
             type={type}
             className={`text-center rounded-full w-[24px] h-[24px] flex items-center justify-center text-sm`}
           >
@@ -74,7 +74,7 @@ const Content: FC = () => {
               color={textColor}
               weight={isToday ? "bold" : "normal"}
             >
-              {day.format("D")}
+              {dayjs(day).format("D")}
             </Text>
           </Button>
         );

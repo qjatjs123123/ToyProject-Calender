@@ -1,3 +1,4 @@
+import { useHeaderContext } from "../providers/HeaderProvider";
 import ArrowDropDownIcon from "./common/ArrowDropDownIcon";
 import Button from "./common/Button";
 import ChevronLeftIcon from "./common/ChevronLeftIcon";
@@ -7,6 +8,8 @@ import Text from "./common/Text";
 import HeaderComp from "./Composite/HeaderComp";
 
 const Header = () => {
+  const { goPrevDateByMode, goNextDateByMode, resetToday } = useHeaderContext();
+
   return (
     <HeaderComp>
       <HeaderComp.Title src="calendarLogo.png" title="Calender" alt="logoImage">
@@ -27,6 +30,7 @@ const Header = () => {
               type="none"
               style="outline"
               className="w-[80px] h-[40px] rounded-[30px]"
+              onClick={resetToday}
             >
               <Text size="sm">오늘</Text>
             </Button>
@@ -35,6 +39,7 @@ const Header = () => {
               <Button
                 type="none"
                 className="h-[30px] w-[30px] rounded-full flex justify-center items-center"
+                onClick={goPrevDateByMode}
               >
                 <ChevronLeftIcon />
               </Button>
@@ -42,6 +47,7 @@ const Header = () => {
               <Button
                 type="none"
                 className="h-[30px] w-[30px] rounded-full flex justify-center items-center"
+                onClick={goNextDateByMode}
               >
                 <ChevronRightIcon />
               </Button>
