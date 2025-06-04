@@ -1,58 +1,80 @@
-import React, { type ReactNode } from 'react';
+import React, { type ReactNode } from "react";
+import Text from "../common/Text";
 
 interface HeaderProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 interface HeaderTitleProps {
-  children: ReactNode;
+  src: string;
+  alt: string;
+  title: string;
+  children?: ReactNode;
 }
 
 interface HeaderNavProps {
-  children: ReactNode;
+  left: ReactNode;
+  right: ReactNode;
 }
-
-interface HeaderNavItemProps {
-  href: string;
-  children: ReactNode;
+interface HeaderImageProps {
+  src: string;
+  alt?: string;
 }
 
 const HeaderComp: React.FC<HeaderProps> & {
   Title: React.FC<HeaderTitleProps>;
-  Nav: React.FC<HeaderNavProps>;
-  NavItem: React.FC<HeaderNavItemProps>;
+  Nav2Cols: React.FC<HeaderNavProps>;
+  Text: React.FC<HeaderProps>;
+  Image: React.FC<HeaderImageProps>;
 } = ({ children }) => {
   return (
-    <header className="bg-transparent h-16 pt-2 pb-2 px-6 flex items-center justify-between">
+    <header className="bg-transparent p-4 h-16 flex items-center justify-between">
       {children}
     </header>
   );
 };
 
-const HeaderTitle: React.FC<HeaderTitleProps> = ({ children }) => {
-  return <h1 className="text-xl font-bold text-gray-800">{children}</h1>;
+const HeaderTitle: React.FC<HeaderTitleProps> = ({
+  src,
+  alt,
+  title,
+  children,
+}) => {
+  return (
+    <div className="flex min-w-[238px] pr-[25px] box-border flex-1 items-center">
+      {children}
+      <div className="flex gap-2 items-center">
+        <HeaderImage src={src} alt={alt} />
+        <HeaderText>{title}</HeaderText>
+      </div>
+    </div>
+  );
 };
 
-const HeaderNav: React.FC<HeaderNavProps> = ({ children }) => {
+const HeaderText: React.FC<HeaderProps> = ({ children }) => {
   return (
-    <nav>
-      <ul className="flex space-x-4">{children}</ul>
+    <Text size="xl" weight="medium">
+      {children}
+    </Text>
+  );
+};
+
+const HeaderImage: React.FC<HeaderImageProps> = ({ src, alt = "" }) => {
+  return <img src={src} alt={alt} width={40} height={40} />;
+};
+
+const Nav2Cols: React.FC<HeaderNavProps> = ({ left, right }) => {
+  return (
+    <nav className="flex justify-between w-full">
+      <ul className="flex space-x-4">{left}</ul>
+      <ul className="flex space-x-4">{right}</ul>
     </nav>
   );
 };
 
-const HeaderNavItem: React.FC<HeaderNavItemProps> = ({ href, children }) => {
-  return (
-    <li>
-      <a href={href} className="text-gray-600 hover:text-blue-500">
-        {children}
-      </a>
-    </li>
-  );
-};
-
 HeaderComp.Title = HeaderTitle;
-HeaderComp.Nav = HeaderNav;
-HeaderComp.NavItem = HeaderNavItem;
+HeaderComp.Nav2Cols = Nav2Cols;
+HeaderComp.Text = HeaderText;
+HeaderComp.Image = HeaderImage;
 
 export default HeaderComp;

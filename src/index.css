@@ -57,8 +57,8 @@ body {
 /* outline 스타일 - 테두리만 있고 배경은 투명 */
 .button--style-outline {
   background-color: transparent;
-  border: 2px solid currentColor;
-  color: inherit;
+  border: 1px solid currentColor;
+  color: black;
 }
 
 /* flat 스타일 - 완전 배경 없고 텍스트만 강조 */

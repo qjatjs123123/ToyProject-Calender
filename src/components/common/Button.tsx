@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import type { PropsWithChildren } from "react";
+import type { CSSProperties, PropsWithChildren } from "react";
 
 type Props = PropsWithChildren<{
   type?: "primary" | "danger" | "light" | "dark" | "none";
@@ -7,6 +7,7 @@ type Props = PropsWithChildren<{
   className?: string;
   onClick?: React.MouseEventHandler<HTMLElement>;
   disabled?: boolean;
+  css? : CSSProperties
 }>;
 
 function Button(props: Props) {
@@ -16,6 +17,7 @@ function Button(props: Props) {
     disabled,
     className,
     children,
+    css,
     ...rest
   } = props;
 
@@ -30,6 +32,7 @@ function Button(props: Props) {
         { disabled: disabled },
         className
       )}
+      style={css}
       {...rest}
     >
       {children}
