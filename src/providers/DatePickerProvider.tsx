@@ -2,6 +2,8 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
+  useState,
   type ReactNode,
 } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -29,10 +31,16 @@ const DatePickerContext = createContext<DatePickerContextType | undefined>(
 
 export const DatePickerProvider = ({ children }: { children: ReactNode }) => {
   const selectedDate = useSelector((state: RootState) => state.calendar.date);
+  const [datepickerDate, setDatepickerDate] = useState<string>(selectedDate);
   const now = useSelector((state: RootState) => state.calendar.now);
   const weekDays = ["일", "월", "화", "수", "목", "금", "토"];
-  const days = getDays(selectedDate);
+  const days = getDays(datepickerDate);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setDatepickerDate(selectedDate);
+  }, [selectedDate])
+
   const setDate = useCallback(
     (date: string) => {
       dispatch({ type: "calendar/setDate", payload: date });
@@ -41,16 +49,18 @@ export const DatePickerProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const goPrevMonth = useCallback(() => {
-    const prevMonth = dayjs(selectedDate)
+    const prevMonth = dayjs(datepickerDate)
       .subtract(1, "month")
       .format("YYYY-MM-DD");
-    setDate(prevMonth);
-  }, [selectedDate, setDate]);
+    setDatepickerDate(prevMonth);
+  }, [datepickerDate, setDatepickerDate]);
 
   const goNextMonth = useCallback(() => {
-    const nextMonth = dayjs(selectedDate).add(1, "month").format("YYYY-MM-DD");
-    setDate(nextMonth);
-  }, [selectedDate, setDate]);
+    const nextMonth = dayjs(datepickerDate)
+      .add(1, "month")
+      .format("YYYY-MM-DD");
+    setDatepickerDate(nextMonth);
+  }, [datepickerDate, setDatepickerDate]);
 
   const left = (
     <Text size="sm" weight="bold">

@@ -17,11 +17,11 @@ export const useCalendar = () => {
   );
 
   const getNextDate = useCallback(
-    (nextDate: Dayjs) => {
+    (nextDate: Dayjs, num : number) => {
       if (mode === "month") {
-        return nextDate.add(1, mode).startOf("month");
+        return nextDate.add(num, mode).startOf("month");
       }
-      return nextDate.add(1, mode);
+      return nextDate.add(num, mode);
     },
     [mode]
   );
@@ -29,13 +29,13 @@ export const useCalendar = () => {
   const goPrevDateByMode = useCallback(() => {
     let nextDate = dayjs(selectedDate);
 
-    nextDate = getNextDate(nextDate);
+    nextDate = getNextDate(nextDate, -1);
     setDate(nextDate.format("YYYY-MM-DD"));
   }, [selectedDate, getNextDate, setDate]);
 
   const goNextDateByMode = useCallback(() => {
     let nextDate = dayjs(selectedDate);
-    nextDate = getNextDate(nextDate);
+    nextDate = getNextDate(nextDate, 1);
 
     setDate(nextDate.format("YYYY-MM-DD"));
   }, [selectedDate, setDate, getNextDate]);
