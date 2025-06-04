@@ -1,11 +1,17 @@
 import "./App.css";
-import DatePicker from "./components/datepicker";
+import DatePicker from "./components/DatePicker/DatePicker";
+import { DatePickerProvider } from "./providers/DatePickerProvider";
 
 function App() {
   return (
     <div>
-      <h1 className="text-2xl font-bold underline ">Hello world!</h1>
-      <DatePicker/>
+      <DatePickerProvider>
+        <DatePicker>
+          <DatePicker.Title />
+          <DatePicker.ContentHeader />
+          <DatePicker.Content />
+        </DatePicker>
+      </DatePickerProvider>
     </div>
   );
 }

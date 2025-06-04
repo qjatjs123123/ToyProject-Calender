@@ -2,8 +2,9 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import dayjs from "dayjs";
 
 const initalState = {
-  // 오늘 날짜
+  // 선택날짜
   date: dayjs().format("YYYY-MM-DD"),
+  now: dayjs().format("YYYY-MM-DD"),
 }
 
 export const calendarSlice = createSlice({
