@@ -1,4 +1,4 @@
-import React, { type FC, type SVGProps } from "react";
+import { type FC, type SVGProps } from "react";
 
 export const ChevronRightIcon: FC<SVGProps<SVGSVGElement>> = (props) => (
   <svg width="18" height="18" viewBox="0 0 24 24" focusable="false" {...props}>

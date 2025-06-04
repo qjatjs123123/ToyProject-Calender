@@ -1,4 +1,4 @@
-import React, { type SVGProps } from "react";
+import { type SVGProps } from "react";
 
 const ChevronLeftIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
