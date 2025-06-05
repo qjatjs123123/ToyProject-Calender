@@ -4,7 +4,7 @@ import classNames from "classnames";
 interface TextProps {
   children: React.ReactNode;
   className?: string;
-  size?: "xs" | "sm" | "base" | "lg" | "xl";
+  size?: "xs" | "sm" | "base" | "lg" | "xl" | "xxl";
   weight?: "normal" | "medium" | "bold";
   color?: "black" | "gray" | "blue" | "red" | "white";
   align?: "left" | "center" | "right";
@@ -25,6 +25,7 @@ const Text: React.FC<TextProps> = ({
       "text-base": size === "base",
       "text-lg": size === "lg",
       "text-xl": size === "xl",
+      "text-xxl": size === "xxl",
 
       "font-normal": weight === "normal",
       "font-medium": weight === "medium",

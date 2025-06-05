@@ -85,6 +85,9 @@ body {
 .text-xl {
   font-size: 1.25rem; /* 20px */
 }
+.text-xxl {
+  font-size: 1.5rem; /* 20px */
+}
 
 /* Font Weights */
 .font-normal {

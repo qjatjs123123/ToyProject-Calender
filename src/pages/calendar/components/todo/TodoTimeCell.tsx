@@ -1,15 +1,20 @@
 // components/TodoTimeCell.tsx
+import { type FC } from "react";
 import Text from "../../../../components/common/Text";
 import { TIMELABELS } from "../../../../util/constants";
 
-const TodoTimeCell = () => {
+interface Props {
+  className?: string;
+}
+
+const TodoTimeCell: FC<Props> = ({ className = "" }) => {
   return (
-    <div className="grid grid-cols-1 gap-0 w-[70px] min-w-[70px]">
+    <div className={`grid grid-cols-1 gap-0 w-[70px] min-w-[70px] ${className}`}>
       {TIMELABELS.map((label, idx) => (
         <div key={idx} className="relative h-12 pr-2 text-right">
           <Text
             size="xs"
-            className={`relative top-[-15px] ${idx === 0 ? "hidden" : ""} `}
+            className={`relative top-[-15px] ${idx === 0 ? "hidden" : ""}`}
           >
             {label}
           </Text>

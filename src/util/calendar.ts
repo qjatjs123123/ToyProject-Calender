@@ -17,3 +17,21 @@ export const getDays = (selectedDate: string, weeks: number = 6) => {
   return days;
 };
 
+export const convertWeekDaysKo = (weekday: string) => {
+  switch (weekday) {
+    case "Sunday":
+      return "일";
+    case "Monday":
+      return "월";
+    case "Tuesday":
+      return "화";
+    case "Wednesday":
+      return "수";
+    case "Thursday":
+      return "목";
+    case "Friday":
+      return "금";
+    default:
+      return "토";
+  }
+};
