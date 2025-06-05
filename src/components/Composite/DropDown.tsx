@@ -87,14 +87,21 @@ interface DropdownItemProps {
   onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
-const DropdownItem: FC<DropdownItemProps> = ({ children, onClick }) => (
-  <div
-    onClick={onClick}
-    className="px-4 py-2 cursor-pointer hover:bg-gray-100 transition  bg-[#f5f8fc]"
-  >
-    <Text size="sm">{children}</Text>
-  </div>
-);
+const DropdownItem: FC<DropdownItemProps> = ({ children, onClick }) => {
+  const { toggle } = useDropdown();
+
+  return (
+    <div
+      onClick={(event) => {
+        if (onClick) onClick(event);
+        toggle();
+      }}
+      className="px-4 py-2 cursor-pointer hover:bg-gray-100 transition bg-[#f5f8fc]"
+    >
+      <Text size="sm">{children}</Text>
+    </div>
+  );
+};
 
 Dropdown.Toggle = DropdownToggle;
 Dropdown.Menu = DropdownMenu;
