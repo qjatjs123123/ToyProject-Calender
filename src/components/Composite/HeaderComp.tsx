@@ -28,7 +28,7 @@ const HeaderComp: React.FC<HeaderProps> & {
   Image: React.FC<HeaderImageProps>;
 } = ({ children }) => {
   return (
-    <header className="bg-transparent p-4 h-16 flex items-center justify-between">
+    <header className="bg-transparent p-4 h-full flex items-center justify-between">
       {children}
     </header>
   );

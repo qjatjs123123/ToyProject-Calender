@@ -16,3 +16,13 @@ export const getDays = (selectedDate: string) => {
 
   return days;
 };
+
+export const getMonthsInWeek = (dateStr: string): string[] => {
+  const targetDate = dayjs(dateStr);
+  const startOfWeek = targetDate.startOf("week"); 
+  const daysInWeek = Array.from({ length: 7 }, (_, i) =>
+    startOfWeek.add(i, "day").format("YYYY-MM")
+  );
+  const uniqueMonths = [...new Set(daysInWeek)];
+  return uniqueMonths;
+};

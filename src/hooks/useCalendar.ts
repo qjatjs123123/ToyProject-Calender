@@ -17,7 +17,7 @@ export const useCalendar = () => {
   );
 
   const getNextDate = useCallback(
-    (nextDate: Dayjs, num : number) => {
+    (nextDate: Dayjs, num: number) => {
       if (mode === "month") {
         return nextDate.add(num, mode).startOf("month");
       }
@@ -48,5 +48,6 @@ export const useCalendar = () => {
     goPrevDateByMode,
     goNextDateByMode,
     resetToday,
+    selectedDate
   };
 };
