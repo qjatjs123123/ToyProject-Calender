@@ -151,3 +151,16 @@ body {
   width: 81px;
   min-width: 81px;
 }
+
+.no-br {
+  border-right: 0;
+  padding-right: 0;
+}
+
+.separator {
+  border-left: #dde3ea 1px solid;
+  position: absolute;
+  bottom: 0;
+  height: 20px;
+  margin-left: -1px;
+}
