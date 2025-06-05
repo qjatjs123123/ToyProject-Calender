@@ -5,7 +5,7 @@ import type { ManipulateType } from "dayjs";
 import { setMode } from "../store/mode";
 import type { RootState } from "../store";
 import { HEADER_DROPDOWN_OPTION } from "../util/constants";
-import { ModeStrategy } from "../util/strategy/mode/modeStrategy";
+import { ModeStrategy } from "../util/strategy/mode/ModeStrategy";
 
 type HeaderContextType = ReturnType<typeof useCalendar> & {
   onClick: (mode: ManipulateType) => void;

@@ -1,7 +1,7 @@
 // components/TodoTimeCell.tsx
 import { type FC } from "react";
-import Text from "../../../../components/common/Text";
-import { TIMELABELS } from "../../../../util/constants";
+import Text from "../../../../../components/common/Text";
+import { TIMELABELS } from "../../../../../util/constants";
 
 interface Props {
   className?: string;

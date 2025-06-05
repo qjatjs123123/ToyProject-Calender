@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 import TodoHeader from "./TodoHeader";
 import TodoHeaderCell from "./TodoHeaderCell";
 import TodoTimeCell from "./TodoTimeCell";
@@ -6,10 +6,14 @@ import TodoContent from "./TodoContent";
 import TodoCellSeparators from "./TodoCellSeperator";
 import SeparatorBar from "./TodoSeperatorBar";
 import TodoRowCell from "./TodoRowCell";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../../../../store";
+import { ModeStrategy } from "../../../../../util/strategy/mode/ModeStrategy";
 
 const TodoWithRowCells = () => {
-  const start = dayjs("2025-06-01");
-  const data = Array.from({ length: 1 }, (_, i) => start.add(i, "day"));
+  const mode = useSelector((state: RootState) => state.mode.mode);
+  const selectedDate = useSelector((state: RootState) => state.calendar.date);
+  const data = ModeStrategy.create(mode, selectedDate).cellList();
 
   return (
     <div className="overflow-hidden h-full">
@@ -31,8 +35,8 @@ const TodoWithRowCells = () => {
           <TodoCellSeparators />
           <SeparatorBar />
 
-          {data.map(() => (
-            <TodoRowCell />
+          {data.map((day: Dayjs) => (
+            <TodoRowCell key={day.format("YYYY-MM-DD")}/>
           ))}
         </TodoContent.Main>
       </TodoContent>

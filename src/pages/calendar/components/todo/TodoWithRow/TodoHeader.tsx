@@ -1,5 +1,5 @@
 import React, { type ReactNode } from "react";
-import Text from "../../../../components/common/Text";
+import Text from "../../../../../components/common/Text";
 
 interface TodoHeaderProps {
   className?: string;
