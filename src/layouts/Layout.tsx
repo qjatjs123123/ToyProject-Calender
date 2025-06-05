@@ -15,7 +15,7 @@ const Layout = ({ header, sidebar, children }: BaseLayoutProps) => {
         <div className="flex flex-col w-[256px] bg-transparent h-[100%]">
           {sidebar}
         </div>
-        <main className="shadow-md p-4 bg-white flex-1 rounded-[20px] mb-[16px]">
+        <main className="shadow-md bg-white flex-1 rounded-[20px] mb-[16px]">
           {children}
         </main>
         <aside className="w-[56px] bg-transparent">

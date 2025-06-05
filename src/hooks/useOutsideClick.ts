@@ -1,4 +1,3 @@
-// ✅ 수정된 useOutsideClick.ts
 import { useEffect, type RefObject } from "react";
 
 export function useOutsideClick<T extends HTMLElement>(

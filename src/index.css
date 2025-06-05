@@ -71,7 +71,7 @@ body {
 
 /* Font Sizes */
 .text-xs {
-  font-size: 0.75rem; /* 12px */
+  font-size: 0.7rem; /* 12px */
 }
 .text-sm {
   font-size: 0.875rem; /* 14px */
@@ -123,4 +123,31 @@ body {
 }
 .text-right {
   text-align: right;
+}
+
+
+.sJ9Raf {
+  height: 48px; /* h-12 = 48px */
+}
+
+.sJ9Raf::after {
+  content: "";
+  border-bottom: 1px solid #dde3ea;
+  position: absolute;
+  width: 100%;
+  margin-top: -1px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.todo-cell {
+  position: relative;
+  border-right: 1px solid #dde3ea;
+  padding-right: 12px;
+  box-sizing: border-box;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+  flex: 1 1 auto;
+  width: 81px;
+  min-width: 81px;
 }
