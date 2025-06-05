@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   createContext,
   useContext,
@@ -5,7 +6,10 @@ import {
   type ReactNode,
   type MouseEventHandler,
   type FC,
+  useRef,
 } from "react";
+import Text from "../common/Text";
+import { useOutsideClick } from "../../hooks/useOutsideClick";
 
 interface DropdownContextType {
   isOpen: boolean;
@@ -34,10 +38,15 @@ const Dropdown: FC<DropdownProps> & {
 } = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen((prev) => !prev);
+  const close = () => setIsOpen(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
+  useOutsideClick(dropdownRef as any, close, isOpen);
   return (
     <DropdownContext.Provider value={{ isOpen, toggle }}>
-      <div className="relative inline-block">{children}</div>
+      <div ref={dropdownRef} className="relative inline-block">
+        {children}
+      </div>
     </DropdownContext.Provider>
   );
 };
@@ -50,10 +59,7 @@ interface DropdownToggleProps {
 const DropdownToggle: FC<DropdownToggleProps> = ({ children }) => {
   const { toggle } = useDropdown();
   return (
-    <div
-      onClick={toggle}
-      className=""
-    >
+    <div onClick={toggle} className="">
       {children}
     </div>
   );
@@ -84,12 +90,11 @@ interface DropdownItemProps {
 const DropdownItem: FC<DropdownItemProps> = ({ children, onClick }) => (
   <div
     onClick={onClick}
-    className="px-4 py-2 cursor-pointer hover:bg-gray-100 transition border-b last:border-b-0 bg-[#f5f8fc]"
+    className="px-4 py-2 cursor-pointer hover:bg-gray-100 transition  bg-[#f5f8fc]"
   >
-    {children}
+    <Text size="sm">{children}</Text>
   </div>
 );
-
 
 Dropdown.Toggle = DropdownToggle;
 Dropdown.Menu = DropdownMenu;

@@ -6,6 +6,8 @@ export const ICONDATA = [
   "https://www.gstatic.com/companion/icon_assets/maps_v7_2x_web_24dp.png",
 ];
 
+export const HEADER_DROPDOWN_OPTION = ['일', '주', '월']
+
 export const MODE = {
   DAY: "day",
   WEEK: "week",

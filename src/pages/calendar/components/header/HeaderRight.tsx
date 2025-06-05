@@ -2,6 +2,7 @@ import Dropdown from "../../../../components/Composite/DropDown";
 import Button from "../../../../components/common/Button";
 import Text from "../../../../components/common/Text";
 import ArrowDropDownIcon from "../../../../components/common/ArrowDropDownIcon";
+import { HEADER_DROPDOWN_OPTION } from "../../../../util/constants";
 
 const HeaderRight = () => {
   return (
@@ -21,7 +22,9 @@ const HeaderRight = () => {
         </Dropdown.Toggle>
 
         <Dropdown.Menu>
-          <Dropdown.Item>1</Dropdown.Item>
+          {HEADER_DROPDOWN_OPTION.map((opt) => (
+            <Dropdown.Item>{opt}</Dropdown.Item>
+          ))}
         </Dropdown.Menu>
       </Dropdown>
 
