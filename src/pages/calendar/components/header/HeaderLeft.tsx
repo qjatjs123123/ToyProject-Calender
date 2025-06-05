@@ -6,7 +6,7 @@ import Text from "../../../../components/common/Text";
 import HeaderComp from "../../../../components/Composite/HeaderComp";
 
 const HeaderLeft = () => {
-  const { goPrevDateByMode, goNextDateByMode, resetToday } = useHeaderContext();
+  const { goPrevDateByMode, goNextDateByMode, resetToday, title } = useHeaderContext();
 
   return (
     <div className="flex items-center gap-5">
@@ -37,7 +37,7 @@ const HeaderLeft = () => {
         </Button>
       </div>
 
-      <HeaderComp.Text>2</HeaderComp.Text>
+      <HeaderComp.Text>{title}</HeaderComp.Text>
     </div>
   );
 };

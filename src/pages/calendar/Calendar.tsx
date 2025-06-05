@@ -5,7 +5,7 @@ import SideBar from "./components/sidebar/SideBar";
 import TodoCell from "./components/todo/TodoCell";
 import TodoCellSeparators from "./components/todo/TodoCellSeperator";
 import SeparatorBar from "./components/todo/TodoSeperatorBar";
-import TodoTimeCell from "./components/todo/TodoTimeCelL";
+import TodoTimeCell from "./components/todo/TodoTimeCell";
 
 const Calendar = () => {
   return (
