@@ -12,14 +12,14 @@ export function useOutsideClick<T extends HTMLElement>(
       if (ref.current && !ref.current.contains(event.target as Node)) {
         callback();
       }
-
+      event.stopPropagation();
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside, true);
 
     
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside, true);
     };
   }, [ref, callback, enabled]);
 }

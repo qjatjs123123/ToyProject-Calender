@@ -5,9 +5,10 @@ import CloseIcon from "../../../../../components/common/CloseIcon";
 import { GlobalPortal } from "../../../../../GlobalPortal";
 import type { TempTodoBox } from "../../../../../type/interface";
 import { formatTimeRange } from "../../../../../util/calendar";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { updateTodo } from "../../../../../store/todo";
 import { INIT_TITLE } from "../../../../../util/constants";
+import { useOutsideClick } from "../../../../../hooks/useOutsideClick";
 
 interface TodoModalProps {
   tempTodoBox: TempTodoBox | null;
@@ -18,7 +19,8 @@ interface TodoModalProps {
 const TodoModal: React.FC<TodoModalProps> = ({ tempTodoBox, showModal }) => {
   const [title, setTitle] = useState("");
   const dispatch = useDispatch();
-
+  const modalRef = useRef<HTMLDivElement>(null);
+  useOutsideClick(modalRef as any, () => showModal(false), true);
   const handleSave = () => {
     dispatch(
       updateTodo({
@@ -33,6 +35,7 @@ const TodoModal: React.FC<TodoModalProps> = ({ tempTodoBox, showModal }) => {
   return (
     <GlobalPortal.Consumer>
       <div
+        ref = {modalRef}
         onMouseDown={(e) => {
           e.stopPropagation();
         }}

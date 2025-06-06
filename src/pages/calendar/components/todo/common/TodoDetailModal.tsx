@@ -8,7 +8,8 @@ import { formatTimeRange } from "../../../../../util/calendar";
 import { deleteTodo } from "../../../../../store/todo";
 import TrashIcon from "../../../../../components/common/TrashIcon";
 import Text from "../../../../../components/common/Text";
-
+import { useRef } from "react";
+import { useOutsideClick } from "../../../../../hooks/useOutsideClick";
 
 interface TodoModalProps {
   tempTodoBox: TempTodoBox | null;
@@ -21,6 +22,9 @@ const TodoDetailModal: React.FC<TodoModalProps> = ({
   showModal,
 }) => {
   const dispatch = useDispatch();
+  const modalRef = useRef<HTMLDivElement>(null);
+  useOutsideClick(modalRef as any, () => showModal(false), true);
+
   const handleDelete = () => {
     dispatch(
       deleteTodo({
@@ -35,6 +39,7 @@ const TodoDetailModal: React.FC<TodoModalProps> = ({
   return (
     <GlobalPortal.Consumer>
       <div
+        ref={modalRef}
         onMouseDown={(e) => {
           e.stopPropagation();
         }}
