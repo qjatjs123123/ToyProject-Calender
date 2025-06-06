@@ -34,19 +34,20 @@ const Main: React.FC<MainProps> = ({ children }) => {
     onTodoMouseMove,
     onTodoMouseUp,
     showModal,
+    setShowModal,
     clickTodoBox,
   } = useTodoEvents();
   return (
     <div
       className="w-full flex relative h-[1152px]"
-      onMouseDownCapture={onTodoMouseDown}
-      onMouseMoveCapture={onTodoMouseMove}
-      onMouseUpCapture={onTodoMouseUp}
+      onMouseDown={onTodoMouseDown}
+      onMouseMove={onTodoMouseMove}
+      onMouseUp={onTodoMouseUp}
     >
       {children}
 
       {tempTodoBox && <TodoBox {...tempTodoBox} />}
-      {showModal && <TodoModal tempTodoBox={clickTodoBox} />}
+      {showModal && <TodoModal tempTodoBox={clickTodoBox} showModal={setShowModal}/>}
     </div>
   );
 };

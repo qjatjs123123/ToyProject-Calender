@@ -22,10 +22,11 @@ export interface TodoEventContextType {
 
 export interface TempTodoBox {
   top: number;
-  left: number;
-  width: number;
+  left?: number;
+  width?: number;
   height: number;
   date: string;
-  clientX: number;
-  clientY: number;
+  clientX?: number;
+  clientY?: number;
+  id?: number
 }

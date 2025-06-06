@@ -6,11 +6,12 @@ import React, {
   type ReactNode,
 } from "react";
 import { useDispatch } from "react-redux";
-import { setTodo } from "../../../../../store/todo";
+import { deleteTodo, setTodo } from "../../../../../store/todo";
 import type {
   TempTodoBox,
   TodoEventContextType,
 } from "../../../../../type/interface";
+import { getTodoBoxID } from "../../../../../util/calendar";
 
 const TodoContext = createContext<ExtendTodoEventContextType | undefined>(
   undefined
@@ -23,7 +24,7 @@ interface TodoProviderProps {
 type ExtendTodoEventContextType = TodoEventContextType & {
   showModal?: boolean;
   clickTodoBox: TempTodoBox | null;
-  setShowModal: (data:boolean) => void;
+  setShowModal: (data: boolean) => void;
 };
 
 export const TodoProvider = ({ children }: TodoProviderProps) => {
@@ -34,63 +35,81 @@ export const TodoProvider = ({ children }: TodoProviderProps) => {
   const clickTodoBox = useRef<TempTodoBox | null>(null);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    const target = e.target as HTMLElement;
-    const current = e.currentTarget;
+    if (showModal) {
+      setShowModal(false);
+      dispatch(
+        deleteTodo({
+          date: clickTodoBox.current!.date,
+          id: clickTodoBox.current!.id,
+        })
+      );
+      return;
+    }
     clickTodoBox.current = null;
     setShowModal(false);
+    setStartY(e.clientY);
+    document.body.style.userSelect = "none";
+    document.body.style.cursor = "grabbing";
+  };
 
-    if (current.contains(target)) {
-      const cell = target.closest(".todo-cell") as HTMLElement | null;
-      if (cell) {
-        const index = Array.from(
-          current.querySelectorAll(".todo-cell")
-        ).indexOf(cell);
+  const handleTodoMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (startY !== null) {
+      const rawHeight = e.clientY - startY;
+      const snappedHeight = Math.round(rawHeight / 12) * 12; // 12px 단위 스냅
+      const target = e.target as HTMLElement;
 
-        const rect = cell.getBoundingClientRect();
+      const current = e.currentTarget;
+      if (current.contains(target)) {
+        const cell = target.closest(".todo-cell") as HTMLElement | null;
+        if (cell) {
+          const index = Array.from(
+            current.querySelectorAll(".todo-cell")
+          ).indexOf(cell);
 
-        const offsetY = e.clientY - rect.top;
-        const dataId = cell.dataset.id ?? "";
-        setStartY(e.clientY);
+          const rect = cell.getBoundingClientRect();
 
-        setTempTodoBox({
-          top: Math.floor(offsetY / 12) * 12,
-          left: rect.width * index,
-          width: rect.width,
-          height: 0,
-          date: dataId,
-          clientX: e.clientX,
-          clientY: e.clientY,
-        });
+          const offsetY = e.clientY - rect.top;
+          const offsetX = e.clientX - rect.left;
+          const dataId = cell.dataset.id ?? "";
 
-        document.body.style.userSelect = "none";
-        document.body.style.cursor = "grabbing";
+          if (!tempTodoBox)
+            setTempTodoBox({
+              top: Math.floor(offsetY / 12) * 12,
+              left: rect.width * index + 8,
+              width: rect.width,
+              height: snappedHeight,
+              date: dataId,
+              clientX: e.clientX - offsetX,
+              clientY: e.clientY,
+            });
+          else
+            setTempTodoBox({
+              ...tempTodoBox,
+              height: snappedHeight,
+            });
+        }
       }
     }
   };
 
-  const handleTodoMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    if (startY !== null && tempTodoBox) {
-      const rawHeight = e.clientY - startY;
-      const snappedHeight = Math.round(rawHeight / 12) * 12; // 12px 단위 스냅
-
-      setTempTodoBox({
-        ...tempTodoBox,
-        height: snappedHeight,
-      });
-    }
-  };
-
   const handleTodoMouseUp = () => {
+    if (!tempTodoBox) return;
     document.body.style.userSelect = "";
     document.body.style.cursor = "";
-
+    const id = getTodoBoxID();
     dispatch(
       setTodo({
         date: tempTodoBox!.date,
-        value: [tempTodoBox!.top, tempTodoBox!.height],
+        value: [
+          tempTodoBox!.top,
+          tempTodoBox!.height,
+          tempTodoBox!.date,
+          "(제목 없음)",
+          id,
+        ],
       })
     );
-    clickTodoBox.current = { ...tempTodoBox! };
+    clickTodoBox.current = { ...tempTodoBox!, id };
     setStartY(null);
     setTempTodoBox(null);
     setShowModal(true);

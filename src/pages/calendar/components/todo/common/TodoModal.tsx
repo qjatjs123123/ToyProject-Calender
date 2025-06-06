@@ -1,30 +1,98 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useDispatch } from "react-redux";
+import Button from "../../../../../components/common/Button";
+import CloseIcon from "../../../../../components/common/CloseIcon";
 import { GlobalPortal } from "../../../../../GlobalPortal";
 import type { TempTodoBox } from "../../../../../type/interface";
+import { formatTimeRange } from "../../../../../util/calendar";
+import { useState } from "react";
+import { updateTodo } from "../../../../../store/todo";
 
 interface TodoModalProps {
   tempTodoBox: TempTodoBox | null;
+  showModal: (state: boolean) => void;
+  onSave?: () => void;
 }
 
-const TodoModal: React.FC<TodoModalProps> = ({ tempTodoBox }) => {
+const TodoModal: React.FC<TodoModalProps> = ({ tempTodoBox, showModal }) => {
+  const [title, setTitle] = useState("");
+  const dispatch = useDispatch();
+  const handleSave = () => {
+    dispatch(
+      updateTodo({
+        date: tempTodoBox!.date,
+        id: tempTodoBox!.id,
+        newValue: [
+          tempTodoBox!.top,
+          tempTodoBox!.height,
+          tempTodoBox!.date,
+          title === "" ? "(제목 없음)" : title,
+          tempTodoBox!.id,
+        ],
+      })
+    );
+    showModal(false);
+  };
 
-  if (!tempTodoBox) return <div></div>;
+  if (!tempTodoBox) return null;
 
   return (
     <GlobalPortal.Consumer>
       <div
+        onMouseDown={(e) => {
+          e.stopPropagation();
+        }}
+        className="overflow-auto pt-[42px] px-0 pb-[10px] box-border flex flex-col flex-[1_0_auto] max-w-full shadow-xl relative"
         style={{
           position: "fixed",
-          backgroundColor: "black",
-          pointerEvents: "none",
-          left:tempTodoBox.clientX,
-          top:tempTodoBox.clientY,
-          width:500,
-          height:500,
+          backgroundColor: "#F0F4F8",
+          left: (tempTodoBox.clientX as number) + (tempTodoBox.width as number),
+          top: tempTodoBox.clientY,
+          width: 450,
+          height: 250,
           zIndex: 9999,
-          borderRadius: "6px",
+          borderRadius: "8px",
         }}
       >
-        dfaasdf
+        {/* Header */}
+        <Button
+          onClick={() => showModal(false)}
+          type="none"
+          className="absolute top-[10px] right-[10px] rounded-full p-2 "
+        >
+          <CloseIcon />
+        </Button>
+        <div className="flex-1 mx-4 p-[8px_8px_0_52px] box-border w-auto">
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            type="text"
+            placeholder="제목 추가"
+            className="text-[25px] font-semibold w-full border-b border-gray-300 focus:outline-none focus:border-b-3 focus:border-[#0957D0] transition"
+          />
+        </div>
+
+        {/* Body */}
+        <div className="p-4 flex-1">
+          <div className="text-sm text-gray-600">
+            {formatTimeRange(
+              tempTodoBox.top,
+              tempTodoBox.top + tempTodoBox.height
+            )}
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="flex justify-end px-4 pb-2">
+          <Button
+            size="md"
+            onClick={handleSave}
+            type="primary"
+            className="rounded-[20px]"
+          >
+            저장
+          </Button>
+        </div>
       </div>
     </GlobalPortal.Consumer>
   );

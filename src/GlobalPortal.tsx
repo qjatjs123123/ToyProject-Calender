@@ -1,5 +1,5 @@
-import { createContext, type ReactNode, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { createContext, type ReactNode, useState } from "react";
+import { createPortal } from "react-dom";
 
 const PortalContext = createContext<HTMLDivElement | null>(null);
 
@@ -8,14 +8,14 @@ interface PortalProviderProps {
 }
 
 function PortalProvider({ children }: PortalProviderProps) {
-  const [portalContainerRef, setPortalContainerRef] = useState<HTMLDivElement | null>(null);
+  const [portalContainerRef, setPortalContainerRef] =
+    useState<HTMLDivElement | null>(null);
 
   return (
     <PortalContext.Provider value={portalContainerRef}>
-      {children}
       <div
         id="portal-container"
-        ref={elem => {
+        ref={(elem) => {
           if (portalContainerRef !== null || elem === null) {
             return;
           }
@@ -23,6 +23,7 @@ function PortalProvider({ children }: PortalProviderProps) {
           setPortalContainerRef(elem);
         }}
       />
+      {children}
     </PortalContext.Provider>
   );
 }
@@ -34,7 +35,7 @@ interface PortalConsumerProps {
 function PortalConsumer({ children }: PortalConsumerProps) {
   return (
     <PortalContext.Consumer>
-      {portalContainerRef => {
+      {(portalContainerRef) => {
         if (portalContainerRef === null) {
           return null;
         }

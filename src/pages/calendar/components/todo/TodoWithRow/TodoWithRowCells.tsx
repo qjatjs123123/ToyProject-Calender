@@ -41,7 +41,7 @@ const TodoWithRowCells = () => {
               <TodoRowCell
                 key={day.format("YYYY-MM-DD")}
                 day={day}
-                todos={todos[day.format("YYYY-MM-DD")]}
+                todos={todos[day?.format("YYYY-MM-DD")]}
               />
             ))}
           </TodoContent.Main>

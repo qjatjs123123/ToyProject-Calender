@@ -1,5 +1,11 @@
 import dayjs from "dayjs";
 
+let todoBoxID = 0;
+
+export function getTodoBoxID() {
+  return ++todoBoxID;
+}
+
 export const getDays = (selectedDate: string, weeks: number = 6) => {
   const baseDate = dayjs(selectedDate);
   const startOfMonth = baseDate.startOf("month");
@@ -35,3 +41,32 @@ export const convertWeekDaysKo = (weekday: string) => {
       return "토";
   }
 };
+
+export function pxToTimeWithAMPM(px: number): { ampm: string; time: string } {
+  const totalQuarters = Math.floor(px / 12);
+  const totalMinutes = totalQuarters * 15;
+
+  let hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  const ampm = hours < 12 ? "오전" : "오후";
+
+  hours = hours % 12;
+  if (hours === 0) hours = 12;
+
+  const hh = hours.toString().padStart(2, "0");
+  const mm = minutes.toString().padStart(2, "0");
+
+  return { ampm, time: `${hh}:${mm}` };
+}
+
+export function formatTimeRange(pxStart: number, pxEnd: number): string {
+  const start = pxToTimeWithAMPM(pxStart);
+  const end = pxToTimeWithAMPM(pxEnd);
+
+  if (start.ampm === end.ampm) {
+    return `${start.ampm} ${start.time}~${end.time}`;
+  } else {
+    return `${start.ampm} ${start.time}~${end.ampm} ${end.time}`;
+  }
+}

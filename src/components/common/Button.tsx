@@ -8,12 +8,14 @@ type Props = PropsWithChildren<{
   onClick?: React.MouseEventHandler<HTMLElement>;
   disabled?: boolean;
   css? : CSSProperties
+  size? : "xs" | "sm" | "md" | "lg" | "xl"
 }>;
 
 function Button(props: Props) {
   const {
     type,
     style,
+    size,
     disabled,
     className,
     children,
@@ -28,6 +30,7 @@ function Button(props: Props) {
         {
           [`button--type-${type}`]: type,
           [`button--style-${style}`]: style,
+          [`button--size-${size}`]: size,
         },
         { disabled: disabled },
         className
