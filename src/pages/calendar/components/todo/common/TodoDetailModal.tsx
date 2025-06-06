@@ -9,6 +9,7 @@ import { deleteTodo } from "../../../../../store/todo";
 import TrashIcon from "../../../../../components/common/TrashIcon";
 import Text from "../../../../../components/common/Text";
 
+
 interface TodoModalProps {
   tempTodoBox: TempTodoBox | null;
   showModal: (state: boolean) => void;
@@ -19,7 +20,6 @@ const TodoDetailModal: React.FC<TodoModalProps> = ({
   tempTodoBox,
   showModal,
 }) => {
-
   const dispatch = useDispatch();
   const handleDelete = () => {
     dispatch(

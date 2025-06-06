@@ -18,6 +18,7 @@ interface TodoModalProps {
 const TodoModal: React.FC<TodoModalProps> = ({ tempTodoBox, showModal }) => {
   const [title, setTitle] = useState("");
   const dispatch = useDispatch();
+
   const handleSave = () => {
     dispatch(
       updateTodo({

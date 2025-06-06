@@ -40,8 +40,9 @@ export const TodoProvider = ({ children }: TodoProviderProps) => {
   const clickTodoBox = useRef<TempTodoBox | null>(null);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (showModal) {
+    if (showModal || showDetailModal) {
       setShowModal(false);
+      setShowDetailModal(false);
       dispatch(
         deleteTodo({
           value: clickTodoBox.current!,
@@ -49,6 +50,7 @@ export const TodoProvider = ({ children }: TodoProviderProps) => {
       );
       return;
     }
+
     // clickTodoBox.current = null;
     setShowModal(false);
     setStartY(e.clientY);
