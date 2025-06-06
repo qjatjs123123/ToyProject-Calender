@@ -7,7 +7,7 @@ import React, {
   type ReactNode,
 } from "react";
 import { useDispatch } from "react-redux";
-import { deleteTodo, setTodo } from "../../../../../store/todo";
+import { setTodo } from "../../../../../store/todo";
 import type {
   TempTodoBox,
   TodoEventContextType,
@@ -25,10 +25,10 @@ interface TodoProviderProps {
 
 type ExtendTodoEventContextType = TodoEventContextType & {
   showModal?: boolean;
-  clickTodoBox:  MutableRefObject<TempTodoBox | null>;
+  clickTodoBox: MutableRefObject<TempTodoBox | null>;
   setShowModal: (data: boolean) => void;
   showDetailModal?: boolean;
-   setShowDetailModal: (data: boolean) => void;
+  setShowDetailModal: (data: boolean) => void;
 };
 
 export const TodoProvider = ({ children }: TodoProviderProps) => {
@@ -40,18 +40,7 @@ export const TodoProvider = ({ children }: TodoProviderProps) => {
   const clickTodoBox = useRef<TempTodoBox | null>(null);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    // if (showModal || showDetailModal) {
-    //   setShowModal(false);
-    //   setShowDetailModal(false);
-    //   dispatch(
-    //     deleteTodo({
-    //       value: clickTodoBox.current!,
-    //     })
-    //   );
-    //   return;
-    // }
-
-    // clickTodoBox.current = null;
+    clickTodoBox.current = null;
     setShowModal(false);
     setStartY(e.clientY);
     document.body.style.userSelect = "none";
