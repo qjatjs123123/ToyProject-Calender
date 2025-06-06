@@ -7,9 +7,9 @@ interface Props {
   className?: string;
 }
 
-const TodoTimeCell: FC<Props> = ({ className = "" }) => {
+const TodoTimeCell: FC<Props> = () => {
   return (
-    <div className={`grid grid-cols-1 gap-0 w-[70px] min-w-[70px] ${className}`}>
+    <>
       {TIMELABELS.map((label, idx) => (
         <div key={idx} className="relative h-12 pr-2 text-right">
           <Text
@@ -20,7 +20,7 @@ const TodoTimeCell: FC<Props> = ({ className = "" }) => {
           </Text>
         </div>
       ))}
-    </div>
+    </>
   );
 };
 

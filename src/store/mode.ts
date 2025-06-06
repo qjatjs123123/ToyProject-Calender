@@ -5,7 +5,7 @@ import type { modeProps } from "../type/interface";
 import type { ManipulateType } from "dayjs";
 
 const initalState: modeProps = {
-  mode: MODE.MONTH
+  mode: MODE.WEEK
 };
 
 export const modeSlice = createSlice({

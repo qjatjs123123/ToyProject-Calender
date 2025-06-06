@@ -4,12 +4,13 @@ import Text from "../../../../../components/common/Text";
 import Button from "../../../../../components/common/Button";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../../../store";
+import React from "react";
 
 interface Props {
   day: Dayjs;
 }
 
-const TodoHeaderCell = ({ day }: Props) => {
+const TodoHeaderCell = React.memo(({ day }: Props) => {
   const now = useSelector((state: RootState) => state.calendar.now);
   const isToday = day.isSame(now);
   const weekDay = day.format("dddd");
@@ -31,6 +32,6 @@ const TodoHeaderCell = ({ day }: Props) => {
       </div>
     </div>
   );
-};
+});
 
 export default TodoHeaderCell;

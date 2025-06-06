@@ -9,10 +9,12 @@ import TodoRowCell from "./TodoRowCell";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../../../store";
 import { ModeStrategy } from "../../../../../util/strategy/mode/ModeStrategy";
+import { TodoProvider } from "../providers/TodoProvider";
 
 const TodoWithRowCells = () => {
   const mode = useSelector((state: RootState) => state.mode.mode);
   const selectedDate = useSelector((state: RootState) => state.calendar.date);
+  const todos = useSelector((state: RootState) => state.todo.todos);
   const data = ModeStrategy.create(mode, selectedDate).cellList();
 
   return (
@@ -31,14 +33,19 @@ const TodoWithRowCells = () => {
           <TodoTimeCell />
         </TodoContent.Side>
 
-        <TodoContent.Main>
-          <TodoCellSeparators />
-          <SeparatorBar />
-
-          {data.map((day: Dayjs) => (
-            <TodoRowCell key={day.format("YYYY-MM-DD")}/>
-          ))}
-        </TodoContent.Main>
+        <TodoProvider>
+          <TodoContent.Main>
+            <TodoCellSeparators />
+            <SeparatorBar />
+            {data.map((day: Dayjs) => (
+              <TodoRowCell
+                key={day.format("YYYY-MM-DD")}
+                day={day}
+                todos={todos[day.format("YYYY-MM-DD")]}
+              />
+            ))}
+          </TodoContent.Main>
+        </TodoProvider>
       </TodoContent>
     </div>
   );

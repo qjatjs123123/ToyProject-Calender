@@ -1,4 +1,7 @@
 import React, { type ReactNode } from "react";
+import TodoBox from "../common/TodoBox";
+import TodoModal from "../common/TodoModal";
+import { useTodoEvents } from "../providers/TodoProvider";
 
 interface TodoContentProps {
   className?: string;
@@ -6,22 +9,46 @@ interface TodoContentProps {
 }
 
 interface TodoContentComponent extends React.FC<TodoContentProps> {
-  Main: React.FC<{ children?: ReactNode }>;
+  Main: React.FC<MainProps>;
   Side: React.FC<{ children?: ReactNode }>;
 }
 
 const TodoContent: TodoContentComponent = ({ className = "", children }) => {
   return (
     <div
-      className={`relative flex flex-grow flex-shrink basis-auto overflow-y-auto h-full ${className}`}
+      className={`relative flex flex-grow flex-shrink basis-auto overflow-y-auto h-[calc(100%-81px)] ${className}`}
     >
       {children}
     </div>
   );
 };
 
-const Main: React.FC<{ children?: ReactNode }> = ({ children }) => {
-  return <div className="w-full flex relative  h-[1152px]">{children}</div>;
+type MainProps = {
+  children?: React.ReactNode;
+};
+
+const Main: React.FC<MainProps> = ({ children }) => {
+  const {
+    tempTodoBox,
+    onTodoMouseDown,
+    onTodoMouseMove,
+    onTodoMouseUp,
+    showModal,
+    clickTodoBox,
+  } = useTodoEvents();
+  return (
+    <div
+      className="w-full flex relative h-[1152px]"
+      onMouseDownCapture={onTodoMouseDown}
+      onMouseMoveCapture={onTodoMouseMove}
+      onMouseUpCapture={onTodoMouseUp}
+    >
+      {children}
+
+      {tempTodoBox && <TodoBox {...tempTodoBox} />}
+      {showModal && <TodoModal tempTodoBox={clickTodoBox} />}
+    </div>
+  );
 };
 
 const Side: React.FC<{ children?: ReactNode }> = ({ children }) => {
