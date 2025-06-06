@@ -1,36 +1,50 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import React from "react";
 import Text from "../../../../../components/common/Text";
-
 import { formatTimeRange } from "../../../../../util/calendar";
 
-const TodoBox: React.FC<any> = ({
-  top,
-  left = 0,
-  width = "100%",
-  height,
-  title,
+interface TodoBoxProps{
+  setShowDetailModal: (state: boolean) => void;
+  tempTodoBox: any;
+  current?: any;
+}
+
+const TodoBox: React.FC<TodoBoxProps> = ({
+  setShowDetailModal,
+  tempTodoBox,
+  current,
 }) => {
+  const data = {...tempTodoBox}
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    setShowDetailModal!(true);
+    
+    if(current)
+      current.current = data;
+  };
+
   return (
     <div
-    className="flex flex-col p-1"
+      onMouseDown={handleMouseDown}
+      className="flex flex-col p-1"
       style={{
         position: "absolute",
-        top,
-        left,
-        width,
-        height,
+        top : tempTodoBox.top,
+        left: tempTodoBox.left,
+        width: tempTodoBox.width,
+        height: tempTodoBox.height,
         backgroundColor: "rgb(121, 134, 203)",
-        pointerEvents: "none",
         zIndex: 88,
         borderRadius: "6px",
         border: "1px solid white",
       }}
     >
       <Text size="xs" color="white" weight="bold">
-        {title}
+        {tempTodoBox.title}
       </Text>
       <Text size="xs" color="white" weight="bold">
-        {formatTimeRange(top, top + height)}
+        {formatTimeRange(tempTodoBox.top, tempTodoBox.top + tempTodoBox.height)}
       </Text>
     </div>
   );

@@ -3,6 +3,7 @@ import React, {
   useContext,
   useRef,
   useState,
+  type MutableRefObject,
   type ReactNode,
 } from "react";
 import { useDispatch } from "react-redux";
@@ -12,6 +13,7 @@ import type {
   TodoEventContextType,
 } from "../../../../../type/interface";
 import { getTodoBoxID } from "../../../../../util/calendar";
+import { INIT_TITLE } from "../../../../../util/constants";
 
 const TodoContext = createContext<ExtendTodoEventContextType | undefined>(
   undefined
@@ -23,14 +25,17 @@ interface TodoProviderProps {
 
 type ExtendTodoEventContextType = TodoEventContextType & {
   showModal?: boolean;
-  clickTodoBox: TempTodoBox | null;
+  clickTodoBox:  MutableRefObject<TempTodoBox | null>;
   setShowModal: (data: boolean) => void;
+  showDetailModal?: boolean;
+   setShowDetailModal: (data: boolean) => void;
 };
 
 export const TodoProvider = ({ children }: TodoProviderProps) => {
   const [tempTodoBox, setTempTodoBox] = useState<TempTodoBox | null>(null);
   const [startY, setStartY] = useState<number | null>(null);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [showDetailModal, setShowDetailModal] = useState<boolean>(false);
   const dispatch = useDispatch();
   const clickTodoBox = useRef<TempTodoBox | null>(null);
 
@@ -39,8 +44,7 @@ export const TodoProvider = ({ children }: TodoProviderProps) => {
       setShowModal(false);
       dispatch(
         deleteTodo({
-          date: clickTodoBox.current!.date,
-          id: clickTodoBox.current!.id,
+          value: clickTodoBox.current!,
         })
       );
       return;
@@ -81,6 +85,8 @@ export const TodoProvider = ({ children }: TodoProviderProps) => {
               date: dataId,
               clientX: e.clientX - offsetX,
               clientY: e.clientY,
+              id: getTodoBoxID(),
+              title: INIT_TITLE,
             });
           else
             setTempTodoBox({
@@ -96,20 +102,21 @@ export const TodoProvider = ({ children }: TodoProviderProps) => {
     if (!tempTodoBox) return;
     document.body.style.userSelect = "";
     document.body.style.cursor = "";
-    const id = getTodoBoxID();
+
+    const newValue = {
+      ...tempTodoBox,
+      w: tempTodoBox.width,
+      left: 0,
+      width: "100%",
+    } as TempTodoBox;
+
     dispatch(
       setTodo({
-        date: tempTodoBox!.date,
-        value: [
-          tempTodoBox!.top,
-          tempTodoBox!.height,
-          tempTodoBox!.date,
-          "(제목 없음)",
-          id,
-        ],
+        value: newValue,
       })
     );
-    clickTodoBox.current = { ...tempTodoBox!, id };
+    clickTodoBox.current = newValue;
+
     setStartY(null);
     setTempTodoBox(null);
     setShowModal(true);
@@ -119,10 +126,12 @@ export const TodoProvider = ({ children }: TodoProviderProps) => {
     onTodoMouseDown: handleMouseDown,
     onTodoMouseMove: handleTodoMouseMove,
     onTodoMouseUp: handleTodoMouseUp,
-    clickTodoBox: clickTodoBox.current,
+    clickTodoBox: clickTodoBox,
     tempTodoBox,
     setShowModal,
     showModal,
+    showDetailModal,
+    setShowDetailModal,
   };
 
   return <TodoContext.Provider value={value}>{children}</TodoContext.Provider>;

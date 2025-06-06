@@ -22,11 +22,13 @@ export interface TodoEventContextType {
 
 export interface TempTodoBox {
   top: number;
-  left?: number;
-  width?: number;
+  left: number;
+  width: number | "100%";
   height: number;
   date: string;
-  clientX?: number;
-  clientY?: number;
-  id?: number
+  clientX: number;
+  clientY: number;
+  id: number
+  title: string;
+  w?:number;
 }

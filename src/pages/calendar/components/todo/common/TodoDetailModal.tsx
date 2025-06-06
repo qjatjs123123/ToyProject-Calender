@@ -5,9 +5,9 @@ import CloseIcon from "../../../../../components/common/CloseIcon";
 import { GlobalPortal } from "../../../../../GlobalPortal";
 import type { TempTodoBox } from "../../../../../type/interface";
 import { formatTimeRange } from "../../../../../util/calendar";
-import { useState } from "react";
-import { updateTodo } from "../../../../../store/todo";
-import { INIT_TITLE } from "../../../../../util/constants";
+import { deleteTodo } from "../../../../../store/todo";
+import TrashIcon from "../../../../../components/common/TrashIcon";
+import Text from "../../../../../components/common/Text";
 
 interface TodoModalProps {
   tempTodoBox: TempTodoBox | null;
@@ -15,13 +15,15 @@ interface TodoModalProps {
   onSave?: () => void;
 }
 
-const TodoModal: React.FC<TodoModalProps> = ({ tempTodoBox, showModal }) => {
-  const [title, setTitle] = useState("");
+const TodoDetailModal: React.FC<TodoModalProps> = ({
+  tempTodoBox,
+  showModal,
+}) => {
   const dispatch = useDispatch();
-  const handleSave = () => {
+  const handleDelete = () => {
     dispatch(
-      updateTodo({
-        value: { ...tempTodoBox!, title: title === "" ? INIT_TITLE : title },
+      deleteTodo({
+        value: { ...tempTodoBox! },
       })
     );
     showModal(false);
@@ -48,21 +50,26 @@ const TodoModal: React.FC<TodoModalProps> = ({ tempTodoBox, showModal }) => {
         }}
       >
         {/* Header */}
-        <Button
-          onClick={() => showModal(false)}
-          type="none"
-          className="absolute top-[10px] right-[10px] rounded-full p-2 "
-        >
-          <CloseIcon />
-        </Button>
+        <div>
+          <Button
+            onClick={() => showModal(false)}
+            type="none"
+            className="absolute top-[10px] right-[10px] rounded-full p-2 "
+          >
+            <CloseIcon />
+          </Button>
+          <Button
+            onClick={() => handleDelete()}
+            type="none"
+            className="absolute top-[10px] right-[40px] rounded-full p-2 "
+          >
+            <TrashIcon />
+          </Button>
+        </div>
         <div className="flex-1 mx-4 p-[8px_8px_0_52px] box-border w-auto">
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            type="text"
-            placeholder="제목 추가"
-            className="text-[25px] font-semibold w-full border-b border-gray-300 focus:outline-none focus:border-b-3 focus:border-[#0957D0] transition"
-          />
+          <Text size="xxl" weight="bold">
+            {tempTodoBox.title}
+          </Text>
         </div>
 
         {/* Body */}
@@ -79,11 +86,11 @@ const TodoModal: React.FC<TodoModalProps> = ({ tempTodoBox, showModal }) => {
         <div className="flex justify-end px-4 pb-2">
           <Button
             size="md"
-            onClick={handleSave}
+            onClick={() => showModal(false)}
             type="primary"
             className="rounded-[20px]"
           >
-            저장
+            닫기
           </Button>
         </div>
       </div>
@@ -91,4 +98,4 @@ const TodoModal: React.FC<TodoModalProps> = ({ tempTodoBox, showModal }) => {
   );
 };
 
-export default TodoModal;
+export default TodoDetailModal;

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { TempTodoBox } from "../type/interface";
 
 interface HighlightMap {
   [date: string]: any[];
@@ -17,39 +18,32 @@ export const todoSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {
-    setTodo: (state, action: PayloadAction<{ date: string; value: any[] }>) => {
-      const { date, value } = action.payload;
+    setTodo: (state, action: PayloadAction<{ value: TempTodoBox }>) => {
+      const { value } = action.payload;
 
-      if (!state.todos[date]) {
-        state.todos[date] = [];
+      if (!state.todos[value.date]) {
+        state.todos[value.date] = [];
       }
 
-      state.todos[date].push(value);
+      state.todos[value.date].push(value);
     },
-    deleteTodo: (state, action: PayloadAction<{ date: string; id: any }>) => {
-      const { date, id } = action.payload;
+    deleteTodo: (state, action: PayloadAction<{ value: TempTodoBox }>) => {
+      const { value } = action.payload;
 
-      if (!state.todos[date]) return;
+      if (!state.todos[value.date]) return;
 
-      state.todos[date] = state.todos[date].filter(
-        (todo) => todo[todo.length - 1] !== id
+      state.todos[value.date] = state.todos[value.date].filter(
+        (todo) => todo.id !== value.id
       );
     },
-    updateTodo: (
-      state,
-      action: PayloadAction<{ date: string; id: any; newValue: any[] }>
-    ) => {
-      const { date, id, newValue } = action.payload;
+    updateTodo: (state, action: PayloadAction<{ value: TempTodoBox }>) => {
+      const { value } = action.payload;
 
-      if (!state.todos[date]) return;
+      if (!state.todos[value.date]) return;
 
-      const index = state.todos[date].findIndex(
-        (todo) => todo[todo.length - 1] === id
+      state.todos[value.date] = state.todos[value.date].map((todo) =>
+        todo.id === value.id ? { ...value } : todo
       );
-
-      if (index !== -1) {
-        state.todos[date][index] = newValue;
-      }
     },
   },
 });

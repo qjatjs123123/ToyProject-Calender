@@ -2,6 +2,7 @@ import React, { type ReactNode } from "react";
 import TodoBox from "../common/TodoBox";
 import TodoModal from "../common/TodoModal";
 import { useTodoEvents } from "../providers/TodoProvider";
+import TodoDetailModal from "../common/TodoDetailModal";
 
 interface TodoContentProps {
   className?: string;
@@ -36,6 +37,8 @@ const Main: React.FC<MainProps> = ({ children }) => {
     showModal,
     setShowModal,
     clickTodoBox,
+    showDetailModal,
+    setShowDetailModal,
   } = useTodoEvents();
   return (
     <div
@@ -46,8 +49,9 @@ const Main: React.FC<MainProps> = ({ children }) => {
     >
       {children}
 
-      {tempTodoBox && <TodoBox {...tempTodoBox} />}
-      {showModal && <TodoModal tempTodoBox={clickTodoBox} showModal={setShowModal}/>}
+      {tempTodoBox && <TodoBox tempTodoBox={tempTodoBox} current={clickTodoBox} setShowDetailModal={setShowDetailModal} />}
+      {showModal && <TodoModal tempTodoBox={clickTodoBox.current} showModal={setShowModal}/>}
+      {showDetailModal && <TodoDetailModal tempTodoBox={clickTodoBox.current} showModal={setShowDetailModal}/>}
     </div>
   );
 };

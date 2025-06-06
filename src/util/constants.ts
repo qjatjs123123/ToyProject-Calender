@@ -46,4 +46,6 @@ export const TIMELABELS = [
   "오후 11시",
 ];
 
+export const INIT_TITLE = "(제목 없음)"
+
 export type MoveMode = (typeof MODE)[keyof typeof MODE];
