@@ -6,7 +6,7 @@ import { formatTimeRange } from "../../../../../util/calendar";
 interface TodoBoxProps{
   setShowDetailModal: (state: boolean) => void;
   tempTodoBox: any;
-  current?: any;
+  current: any;
 }
 
 const TodoBox: React.FC<TodoBoxProps> = ({
@@ -19,7 +19,7 @@ const TodoBox: React.FC<TodoBoxProps> = ({
   const handleMouseDown = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     setShowDetailModal!(true);
-    
+
     if(current)
       current.current = data;
   };

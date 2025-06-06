@@ -19,6 +19,7 @@ const TodoDetailModal: React.FC<TodoModalProps> = ({
   tempTodoBox,
   showModal,
 }) => {
+
   const dispatch = useDispatch();
   const handleDelete = () => {
     dispatch(

@@ -4,7 +4,7 @@ import type { TempTodoBox } from "../../../../../type/interface";
 import { useTodoEvents } from "../providers/TodoProvider";
 
 const TodoRowCell = ({ day, todos }: { day?: Dayjs; todos: TempTodoBox[] }) => {
-  const { setShowDetailModal } = useTodoEvents();
+  const { setShowDetailModal,  clickTodoBox} = useTodoEvents();
   return (
     <div className="todo-cell" data-id={day?.format("YYYY-MM-DD")}>
       <div className="absolute inset-0 z-5"></div>
@@ -15,6 +15,7 @@ const TodoRowCell = ({ day, todos }: { day?: Dayjs; todos: TempTodoBox[] }) => {
               key={index}
               tempTodoBox={todo}
               setShowDetailModal={setShowDetailModal}
+              current={clickTodoBox}
             />
           );
         })}

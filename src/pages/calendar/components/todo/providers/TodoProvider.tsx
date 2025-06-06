@@ -49,7 +49,7 @@ export const TodoProvider = ({ children }: TodoProviderProps) => {
       );
       return;
     }
-    clickTodoBox.current = null;
+    // clickTodoBox.current = null;
     setShowModal(false);
     setStartY(e.clientY);
     document.body.style.userSelect = "none";
