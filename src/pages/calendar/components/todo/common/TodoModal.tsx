@@ -6,7 +6,7 @@ import { GlobalPortal } from "../../../../../GlobalPortal";
 import type { TempTodoBox } from "../../../../../type/interface";
 import { formatTimeRange } from "../../../../../util/calendar";
 import { useRef, useState } from "react";
-import { updateTodo } from "../../../../../store/todo";
+import { deleteTodo, updateTodo } from "../../../../../store/todo";
 import { INIT_TITLE } from "../../../../../util/constants";
 import { useOutsideClick } from "../../../../../hooks/useOutsideClick";
 
@@ -20,7 +20,17 @@ const TodoModal: React.FC<TodoModalProps> = ({ tempTodoBox, showModal }) => {
   const [title, setTitle] = useState("");
   const dispatch = useDispatch();
   const modalRef = useRef<HTMLDivElement>(null);
-  useOutsideClick(modalRef as any, () => showModal(false), true);
+  useOutsideClick(modalRef as any, callback, true);
+
+  function callback() {
+    dispatch(
+      deleteTodo({
+        value: tempTodoBox!,
+      })
+    );
+    showModal(false);
+  }
+
   const handleSave = () => {
     dispatch(
       updateTodo({
@@ -35,7 +45,7 @@ const TodoModal: React.FC<TodoModalProps> = ({ tempTodoBox, showModal }) => {
   return (
     <GlobalPortal.Consumer>
       <div
-        ref = {modalRef}
+        ref={modalRef}
         onMouseDown={(e) => {
           e.stopPropagation();
         }}
