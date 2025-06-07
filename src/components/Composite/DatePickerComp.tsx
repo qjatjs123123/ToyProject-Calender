@@ -14,14 +14,22 @@ interface ContentDataProps {
   day: string;
 }
 
+interface HeaderDataProps {
+  dayName: string;
+}
+
 interface DatePickerContentComponent extends FC<childrenProps> {
   Data: FC<ContentDataProps>;
+}
+
+interface DatePickerHeaderComponent extends FC<childrenProps> {
+  Data: FC<HeaderDataProps>;
 }
 
 interface DatePickerComponent extends FC<childrenProps> {
   Title: FC<DatePickerTitleProps>;
   Content: DatePickerContentComponent;
-  ContentHeader: FC;
+  ContentHeader: DatePickerHeaderComponent;
 }
 
 const Title: FC<DatePickerTitleProps> = () => {
@@ -51,7 +59,11 @@ const ContentData: FC<ContentDataProps> = ({ day }) => {
       type={type}
       className="text-center rounded-full w-[24px] h-[24px] flex items-center justify-center text-sm"
     >
-      <Text size="xs" color={textColor} weight={isToday ? "bold" : "normal"}>
+      <Text
+        size="xs"
+        color={textColor}
+        weight={isToday ? "bold" : "normal"}
+      >
         {dayjs(day).format("D")}
       </Text>
     </Button>
@@ -63,8 +75,7 @@ const ContentRoot: FC<childrenProps> = ({ children }) => {
 
   return (
     <div className="grid grid-cols-7 gap-2 place-items-center">
-      {children ||
-        days.map((day, idx) => <DatePicker.Content.Data key={idx} day={day} />)}
+      {children || days.map((day, idx) => <DatePicker.Content.Data key={idx} day={day} />)}
     </div>
   );
 };
@@ -73,22 +84,36 @@ const Content = Object.assign(ContentRoot, {
   Data: ContentData,
 }) as DatePickerContentComponent;
 
-const ContentHeader: FC = () => {
+const ContentHeaderData: FC<HeaderDataProps> = ({ dayName }) => {
+  return (
+    <div className="text-gray-600 text-center">
+      <Text size="xs">{dayName}</Text>
+    </div>
+  );
+};
+
+const ContentHeaderRoot: FC<childrenProps> = ({ children }) => {
   const { weekDays } = useDatePicker();
 
   return (
     <div className="grid grid-cols-7 gap-2 text-center font-semibold mb-2">
-      {weekDays.map((dayName, idx) => (
-        <div key={idx} className="text-gray-600">
-          <Text size="xs">{dayName}</Text>
-        </div>
+      {children || weekDays.map((dayName, idx) => (
+        <DatePicker.ContentHeader.Data key={idx} dayName={dayName} />
       ))}
     </div>
   );
 };
 
+const ContentHeader = Object.assign(ContentHeaderRoot, {
+  Data: ContentHeaderData,
+}) as DatePickerHeaderComponent;
+
 const DatePickerRoot: FC<childrenProps> = ({ children }) => {
-  return <div className="max-w-md mx-auto mt-4 p-4 rounded-xl">{children}</div>;
+  return (
+    <div className="max-w-md mx-auto mt-4 p-4 rounded-xl">
+      {children}
+    </div>
+  );
 };
 
 const DatePicker = Object.assign(DatePickerRoot, {
