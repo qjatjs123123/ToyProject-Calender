@@ -10,9 +10,17 @@ interface DatePickerTitleProps {
   right?: ReactNode;
 }
 
+interface ContentDataProps {
+  day: string;
+}
+
+interface DatePickerContentComponent extends FC<childrenProps> {
+  Data: FC<ContentDataProps>;
+}
+
 interface DatePickerComponent extends FC<childrenProps> {
   Title: FC<DatePickerTitleProps>;
-  Content: FC;
+  Content: DatePickerContentComponent;
   ContentHeader: FC;
 }
 
@@ -26,6 +34,44 @@ const Title: FC<DatePickerTitleProps> = () => {
     </div>
   );
 };
+
+const ContentData: FC<ContentDataProps> = ({ day }) => {
+  const { selectedDate, setDate, now } = useDatePicker();
+
+  const isToday = day === now;
+  const isSelected = day === selectedDate;
+  const isCurrentMonth = dayjs(day).month() === dayjs(selectedDate).month();
+
+  const type = isToday ? "primary" : isSelected ? "light" : "none";
+  const textColor = isToday ? "white" : isCurrentMonth ? "black" : "gray";
+
+  return (
+    <Button
+      onClick={() => setDate(day)}
+      type={type}
+      className="text-center rounded-full w-[24px] h-[24px] flex items-center justify-center text-sm"
+    >
+      <Text size="xs" color={textColor} weight={isToday ? "bold" : "normal"}>
+        {dayjs(day).format("D")}
+      </Text>
+    </Button>
+  );
+};
+
+const ContentRoot: FC<childrenProps> = ({ children }) => {
+  const { days } = useDatePicker();
+
+  return (
+    <div className="grid grid-cols-7 gap-2 place-items-center">
+      {children ||
+        days.map((day, idx) => <DatePicker.Content.Data key={idx} day={day} />)}
+    </div>
+  );
+};
+
+const Content = Object.assign(ContentRoot, {
+  Data: ContentData,
+}) as DatePickerContentComponent;
 
 const ContentHeader: FC = () => {
   const { weekDays } = useDatePicker();
@@ -41,54 +87,8 @@ const ContentHeader: FC = () => {
   );
 };
 
-const Content: FC = () => {
-  const { selectedDate, days, setDate, now } = useDatePicker();
-
-  return (
-    <div className="grid grid-cols-7 gap-2 place-items-center">
-      {days.map((day, idx) => {
-        const isToday = day === now;
-        const isSelected = day === selectedDate;
-        const isCurrentMonth = dayjs(day).month() === dayjs(selectedDate).month();
-
-        const type = isToday
-          ? "primary"
-          : isSelected
-          ? "light"
-          : "none";
-        const textColor = isToday
-          ? "white"
-          : isCurrentMonth
-          ? "black"
-          : "gray";
-
-        return (
-          <Button
-            key={idx}
-            onClick={() => setDate(day)}
-            type={type}
-            className={`text-center rounded-full w-[24px] h-[24px] flex items-center justify-center text-sm`}
-          >
-            <Text
-              size="xs"
-              color={textColor}
-              weight={isToday ? "bold" : "normal"}
-            >
-              {dayjs(day).format("D")}
-            </Text>
-          </Button>
-        );
-      })}
-    </div>
-  );
-};
-
 const DatePickerRoot: FC<childrenProps> = ({ children }) => {
-  return (
-    <div className="max-w-md mx-auto mt-4 p-4 rounded-xl">
-      {children}
-    </div>
-  );
+  return <div className="max-w-md mx-auto mt-4 p-4 rounded-xl">{children}</div>;
 };
 
 const DatePicker = Object.assign(DatePickerRoot, {
