@@ -1,9 +1,12 @@
 import dayjs from "dayjs";
 import type { FC, ReactNode } from "react";
-import type { childrenProps } from "../../type/interface";
 import { useDatePicker } from "../../providers/DatePickerProvider";
 import Text from "../common/Text";
 import Button from "../common/Button";
+
+interface childrenProps {
+  children?: ReactNode;
+}
 
 interface DatePickerTitleProps {
   left?: ReactNode;
@@ -14,22 +17,24 @@ interface ContentDataProps {
   day: string;
 }
 
-interface HeaderDataProps {
+interface ContentHeaderDataProps {
   dayName: string;
 }
 
-interface DatePickerContentComponent extends FC<childrenProps> {
+// Content 컴포넌트에 Data 프로퍼티 추가할 타입 정의
+interface ContentComponent extends FC<childrenProps> {
   Data: FC<ContentDataProps>;
 }
 
-interface DatePickerHeaderComponent extends FC<childrenProps> {
-  Data: FC<HeaderDataProps>;
+// ContentHeader 컴포넌트에 Data 프로퍼티 추가할 타입 정의
+interface ContentHeaderComponent extends FC<childrenProps> {
+  Data: FC<ContentHeaderDataProps>;
 }
 
 interface DatePickerComponent extends FC<childrenProps> {
   Title: FC<DatePickerTitleProps>;
-  Content: DatePickerContentComponent;
-  ContentHeader: DatePickerHeaderComponent;
+  Content: ContentComponent;
+  ContentHeader: ContentHeaderComponent;
 }
 
 const Title: FC<DatePickerTitleProps> = () => {
@@ -70,21 +75,19 @@ const ContentData: FC<ContentDataProps> = ({ day }) => {
   );
 };
 
-const ContentRoot: FC<childrenProps> = ({ children }) => {
+const Content: ContentComponent = ({ children }) => {
   const { days } = useDatePicker();
 
   return (
     <div className="grid grid-cols-7 gap-2 place-items-center">
-      {children || days.map((day, idx) => <DatePicker.Content.Data key={idx} day={day} />)}
+      {children || days.map((day, idx) => <Content.Data key={idx} day={day} />)}
     </div>
   );
 };
 
-const Content = Object.assign(ContentRoot, {
-  Data: ContentData,
-}) as DatePickerContentComponent;
+Content.Data = ContentData;
 
-const ContentHeaderData: FC<HeaderDataProps> = ({ dayName }) => {
+const ContentHeaderData: FC<ContentHeaderDataProps> = ({ dayName }) => {
   return (
     <div className="text-gray-600 text-center">
       <Text size="xs">{dayName}</Text>
@@ -92,21 +95,19 @@ const ContentHeaderData: FC<HeaderDataProps> = ({ dayName }) => {
   );
 };
 
-const ContentHeaderRoot: FC<childrenProps> = ({ children }) => {
+const ContentHeader: ContentHeaderComponent = ({ children }) => {
   const { weekDays } = useDatePicker();
 
   return (
     <div className="grid grid-cols-7 gap-2 text-center font-semibold mb-2">
       {children || weekDays.map((dayName, idx) => (
-        <DatePicker.ContentHeader.Data key={idx} dayName={dayName} />
+        <ContentHeader.Data key={idx} dayName={dayName} />
       ))}
     </div>
   );
 };
 
-const ContentHeader = Object.assign(ContentHeaderRoot, {
-  Data: ContentHeaderData,
-}) as DatePickerHeaderComponent;
+ContentHeader.Data = ContentHeaderData;
 
 const DatePickerRoot: FC<childrenProps> = ({ children }) => {
   return (

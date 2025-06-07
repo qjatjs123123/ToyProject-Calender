@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import type { Dayjs, ManipulateType } from 'dayjs';
 export interface childrenProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export interface modeProps{
