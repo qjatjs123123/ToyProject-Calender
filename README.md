@@ -4,6 +4,8 @@
 
 https://google-calen.netlify.app/
 
+<br />
+
 ## 🚀 프로젝트 개요
 
 개인 프로젝트 입니다. <br />
@@ -21,6 +23,8 @@ https://google-calen.netlify.app/
   <img src="https://img.shields.io/badge/Redux_Toolkit-764ABC?style=for-the-badge&logo=redux&logoColor=white" />
   <img src="https://img.shields.io/badge/classnames-000000?style=for-the-badge&logo=css3&logoColor=white" />
 </div>
+
+<br />
 
 ## 📚 왜 이 라이브러리를 사용했나?
 ### `Redux-toolkit`
